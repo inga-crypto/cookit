@@ -21,7 +21,6 @@ exports.list = async () => {
 }
 exports.add = async (data) => {
   try {
-      console.log(data);
     const result = await db.insert(data).into('recipes').returning('*')
     return result
   } catch (e) {
@@ -31,10 +30,7 @@ exports.add = async (data) => {
 
 exports.edit = async (data) => {
   try {
-    const result = await db
-      .update(data)
-      .from('recipes')
-      .where({ id: data.id })
+    const result = await db.update(data).from('recipes').where({ id: data.id })
     return result
   } catch (e) {
     return e
