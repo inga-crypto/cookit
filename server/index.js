@@ -3,6 +3,10 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const corsConfig = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+}
 
 const PORT = process.env.PORT || 5000
 const app = express()
@@ -10,7 +14,7 @@ const app = express()
 const router = require('./router.js')
 
 app.use(morgan('dev'))
-app.use(cors())
+app.use(cors(corsConfig))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(router)

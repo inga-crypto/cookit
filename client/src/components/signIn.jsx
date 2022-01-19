@@ -13,7 +13,49 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
-export default function SignIn() {
+import React, { useState } from 'react'
+import auth from '../utils/auth'
+import api from '../services/apiServices'
+import { useNavigate } from 'react-router-dom'
+
+const initialState = {
+  email: '',
+  password: '',
+}
+
+export default function SignIn(props) {
+  let navigate = useNavigate()
+  const [state, setState] = useState(initialState)
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const { email, password } = state
+    const user = { email, password }
+    const res = await api.login(user)
+
+    if (res.error) {
+      alert(`${res.message}`)
+      setState(initialState)
+    } else {
+      const { accessToken } = res.data
+      localStorage.setItem('accessToken', accessToken)
+      props.setIsAuthenticated(true)
+      auth.login(() => navigate('/'))
+    }
+  }
+
+  const validateForm = () => {
+    return !state.email || !state.password
+  }
+
   return (
     <Flex
       minH={'100vh'}
@@ -37,11 +79,21 @@ export default function SignIn() {
           <Stack spacing={4}>
             <FormControl id='email'>
               <FormLabel>Email address</FormLabel>
-              <Input type='email' />
+              <Input
+                type='email'
+                value={state.email}
+                name={'email'}
+                onChange={handleChange}
+              />
             </FormControl>
             <FormControl id='password'>
               <FormLabel>Password</FormLabel>
-              <Input type='password' />
+              <Input
+                type='password'
+                value={state.password}
+                name={'password'}
+                onChange={handleChange}
+              />
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -58,6 +110,8 @@ export default function SignIn() {
                 _hover={{
                   bg: 'blue.500',
                 }}
+                onClick={handleSubmit}
+                disabled={validateForm()}
               >
                 Sign in
               </Button>
