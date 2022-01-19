@@ -21,8 +21,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 
-
-
 export default function Nav(props) {
   let navigate = useNavigate()
   const handleClick = () => {
@@ -31,11 +29,12 @@ export default function Nav(props) {
   }
 
   const removeToken = () => {
-    api.logout('accessToken')
+    api.logout('accessToken', 'user')
   }
 
   const handleAuth = () => {
     props.setIsAuthenticated(false)
+    props.setAuthenticatedUser('')
     auth.logout(() => navigate('/'))
   }
   const { colorMode, toggleColorMode } = useColorMode()
@@ -53,12 +52,7 @@ export default function Nav(props) {
               </Button>
               {!props.isAuthenticated ? (
                 <>
-                  <Button
-                    as={'a'}
-                    fontSize={'sm'}
-                    fontWeight={400}
-                    href={'#'}
-                  >
+                  <Button as={'a'} fontSize={'sm'} fontWeight={400} href={'#'}>
                     <Link to='/signIn'>Sign In</Link>
                   </Button>
                   <Button
@@ -104,9 +98,13 @@ export default function Nav(props) {
                       </Center>
                       <br />
                       <Center>
-                        <p>Username</p>
+                        <p>{props.user.username}</p>
                       </Center>
                       <br />
+                      <MenuDivider />
+                      <MenuItem>
+                        <Link to='/recipe/post'>New Recipe</Link>
+                      </MenuItem>
                       <MenuDivider />
                       <MenuItem onClick={handleClick}>Logout</MenuItem>
                     </MenuList>

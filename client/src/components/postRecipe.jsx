@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   chakra,
   Box,
@@ -17,9 +17,42 @@ import {
   Button,
   VisuallyHidden,
   Select,
+  Image,
 } from '@chakra-ui/react'
+import api from '../services/apiServices'
+import { useNavigate } from 'react-router-dom'
 
+const initialState = {
+  title: '',
+  cuisine: '',
+  description: '',
+  ingredients: '',
+  steps: '',
+  tags: '',
+  imgs: [],
+  file: [],
+}
 export default function PostRecipe() {
+  let navigate = useNavigate()
+  const [state, setState] = useState(initialState)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+    console.log(state)
+  }
+  const _onChange = (event) => {
+    setState({
+      imgs: event.target.files,
+    })
+  }
   return (
     <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
       <Box visibility={{ base: 'hidden', sm: 'visible' }} aria-hidden='true'>
@@ -53,7 +86,7 @@ export default function PostRecipe() {
                 <SimpleGrid columns={6} spacing={6}>
                   <FormControl as={GridItem} colSpan={[6, 3]}>
                     <FormLabel
-                      htmlFor='first_name'
+                      htmlFor='title'
                       fontSize='sm'
                       fontWeight='md'
                       color={useColorModeValue('gray.700', 'gray.50')}
@@ -62,9 +95,10 @@ export default function PostRecipe() {
                     </FormLabel>
                     <Input
                       type='text'
-                      name='first_name'
-                      id='first_name'
-                      autoComplete='given-name'
+                      name='title'
+                      value={state.title}
+                      onChange={handleChange}
+                      id='title'
                       mt={1}
                       focusBorderColor='brand.400'
                       shadow='sm'
@@ -83,9 +117,9 @@ export default function PostRecipe() {
                       Cuisine
                     </FormLabel>
                     <Select
-                      id='country'
-                      name='country'
-                      autoComplete='country'
+                      name='cuisine'
+                      value={state.cuisine}
+                      onChange={handleChange}
                       placeholder='Select option'
                       mt={1}
                       focusBorderColor='brand.400'
@@ -106,9 +140,12 @@ export default function PostRecipe() {
                       fontWeight='md'
                       color={useColorModeValue('gray.700', 'gray.50')}
                     >
-                      Decription
+                      Description
                     </FormLabel>
                     <Textarea
+                      name='description'
+                      value={state.description}
+                      onChange={handleChange}
                       placeholder='A brief description for your recipe......'
                       mt={1}
                       rows={4}
@@ -134,9 +171,9 @@ export default function PostRecipe() {
                     <Input
                       placeholder='eg.( tomato, potato, sugar, etc.....)'
                       type='text'
-                      name='street_address'
-                      id='street_address'
-                      autoComplete='street-address'
+                      name='ingredients'
+                      value={state.ingredients}
+                      onChange={handleChange}
                       mt={1}
                       focusBorderColor='brand.400'
                       shadow='sm'
@@ -155,6 +192,9 @@ export default function PostRecipe() {
                     </FormLabel>
                     <Textarea
                       placeholder='A brief description for your recipe......'
+                      name='steps'
+                      value={state.steps}
+                      onChange={handleChange}
                       mt={1}
                       rows={4}
                       shadow='sm'
@@ -181,6 +221,17 @@ export default function PostRecipe() {
                       borderStyle='dashed'
                       rounded='md'
                     >
+                      <Flex
+                        mt={1}
+                        justify='center'
+                        px={7}
+                        pt={6}
+                        pb={12}
+                        borderWidth={2}
+                        borderColor={useColorModeValue('gray.300', 'gray.500')}
+                        borderStyle='dashed'
+                        rounded='md'
+                      ></Flex>
                       <Stack spacing={1} textAlign='center'>
                         <Icon
                           mx='auto'
@@ -220,6 +271,7 @@ export default function PostRecipe() {
                             <span>Upload a file</span>
                             <VisuallyHidden>
                               <input
+                                onChange={_onChange}
                                 id='file-upload'
                                 name='file-upload'
                                 type='file'
@@ -237,6 +289,11 @@ export default function PostRecipe() {
                       </Stack>
                     </Flex>
                   </FormControl>
+                  {state.imgs &&
+                    [...state.imgs].map((file) => (
+                      <Image src={URL.createObjectURL(file)} />
+                    ))}
+
                   <FormControl as={GridItem} colSpan={6}>
                     <FormLabel
                       htmlFor='street_address'
@@ -252,9 +309,9 @@ export default function PostRecipe() {
                     </FormHelperText>
                     <Input
                       placeholder='eg.( tomato, potato, sugar, etc.....)'
-                      type='text'
-                      name='street_address'
-                      id='street_address'
+                      name='tags'
+                      value={state.tags}
+                      onChange={handleChange}
                       autoComplete='street-address'
                       mt={1}
                       focusBorderColor='brand.400'
@@ -273,12 +330,12 @@ export default function PostRecipe() {
                 textAlign='right'
               >
                 <Button
-                  type='submit'
-                //   colorScheme='brand.'
+                  onClick={handleSubmit}
+                  //   colorScheme='brand.'
                   _focus={{ shadow: '' }}
                   fontWeight='md'
                 >
-                  Save
+                  Create Post
                 </Button>
               </Box>
             </chakra.form>

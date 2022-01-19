@@ -45,9 +45,11 @@ export default function SignIn(props) {
       alert(`${res.message}`)
       setState(initialState)
     } else {
-      const { accessToken } = res.data
+      const { accessToken, user } = res.data
       localStorage.setItem('accessToken', accessToken)
+      localStorage.setItem('user', user[0])
       props.setIsAuthenticated(true)
+      props.setAuthenticatedUser(user[0])
       auth.login(() => navigate('/'))
     }
   }

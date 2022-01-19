@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 // import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 
 export default function ItemRecipe({ recipe }) {
@@ -55,7 +56,7 @@ export default function ItemRecipe({ recipe }) {
             fontSize={'2xl'}
             fontFamily={'body'}
           >
-            {recipe.cuisine_id}
+            {recipe.cuisine}
           </Heading>
           <Text color={'gray.500'}>{recipe.description}</Text>
         </Stack>
@@ -91,8 +92,8 @@ export default function ItemRecipe({ recipe }) {
             alt={'Author'}
           /> */}
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-            <Text fontWeight={600}>Achim Rolle</Text>
-            <Text color={'gray.500'}>Feb 08, 2021</Text>
+            <Text fontWeight={600}>  {recipe.username}</Text>
+            <Text color={'gray.500'}>{moment(recipe.updated_at).format('DD MMM YYYY')}</Text>
           </Stack>
         </Stack>
       </Box>

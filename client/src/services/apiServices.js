@@ -31,8 +31,9 @@ api.login = async (user) => {
   }
 }
 
-api.logout = async (tokenName) => {
+api.logout = async (tokenName,user) => {
   localStorage.removeItem(tokenName)
+  localStorage.removeItem(user)
 }
 
 //RECIPE

@@ -2,7 +2,14 @@ const db = require('./db')
 
 exports.getById = async (id) => {
   try {
-    const result = await db.select('*').from('recipes').where({ id }).first()
+    console.log(id)
+    const result = await db
+      .select('recipes.*', 'cuisines.cuisine', 'users.username')
+      .from('recipes')
+      .leftJoin('cuisines', 'recipes.cuisine_id', 'cuisines.id')
+      .leftJoin('users', 'recipes.user_id', 'users.id')
+      .where('recipes.id', '=', id)
+      .first()
     return result
   } catch (e) {
     return e
@@ -11,9 +18,11 @@ exports.getById = async (id) => {
 exports.list = async () => {
   try {
     const result = await db
-      .select('*')
+      .select('recipes.*', 'cuisines.cuisine', 'users.username')
       .from('recipes')
-      .orderBy('updated_at', 'desc')
+      .leftJoin('cuisines', 'recipes.cuisine_id', 'cuisines.id')
+      .leftJoin('users', 'recipes.user_id', 'users.id')
+      .orderBy('recipes.updated_at', 'desc')
     return result
   } catch (e) {
     return e

@@ -14,6 +14,7 @@ import api from './services/apiServices'
 function App() {
   const initialState = auth.isAuthenticated()
   const [isAuthenticated, setIsAuthenticated] = useState(initialState)
+  const [user, setAuthenticatedUser] = useState([])
   const [recipes, setRecipes] = useState([])
 
   useEffect(() => {
@@ -21,13 +22,15 @@ function App() {
       setRecipes(data.data)
     })
   }, [])
-  
+
   return (
     <div className='App'>
       <Router>
         <Nav
           isAuthenticated={isAuthenticated}
           setIsAuthenticated={setIsAuthenticated}
+          user={user}
+          setAuthenticatedUser={setAuthenticatedUser}
         />
         <Routes>
           <Route
@@ -49,7 +52,9 @@ function App() {
           />
           <Route
             path='signin'
-            element={<SignIn setIsAuthenticated={setIsAuthenticated} />}
+            element={<SignIn setIsAuthenticated={setIsAuthenticated}   
+            user={user}
+            setAuthenticatedUser={setAuthenticatedUser} />}
           />
           <Route
             path='signup'
