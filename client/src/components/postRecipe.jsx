@@ -38,6 +38,7 @@ export default function PostRecipe() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    navigate('/')
   }
 
   const handleChange = (e) => {
@@ -128,9 +129,11 @@ export default function PostRecipe() {
                       w='full'
                       rounded='md'
                     >
-                      <option>United States</option>
-                      <option>Canada</option>
-                      <option>Mexico</option>
+                      <option>Chinese</option>
+                      <option>Mexican</option>
+                      <option>Indian</option>
+                      <option>Turkish</option>
+                      <option>Middle Eastern</option>
                     </Select>
                   </FormControl>
 
@@ -221,17 +224,6 @@ export default function PostRecipe() {
                       borderStyle='dashed'
                       rounded='md'
                     >
-                      <Flex
-                        mt={1}
-                        justify='center'
-                        px={7}
-                        pt={6}
-                        pb={12}
-                        borderWidth={2}
-                        borderColor={useColorModeValue('gray.300', 'gray.500')}
-                        borderStyle='dashed'
-                        rounded='md'
-                      ></Flex>
                       <Stack spacing={1} textAlign='center'>
                         <Icon
                           mx='auto'
@@ -291,7 +283,10 @@ export default function PostRecipe() {
                   </FormControl>
                   {state.imgs &&
                     [...state.imgs].map((file) => (
-                      <Image src={URL.createObjectURL(file)} />
+                      <Image
+                        key={URL.createObjectURL(file)}
+                        src={URL.createObjectURL(file)}
+                      />
                     ))}
 
                   <FormControl as={GridItem} colSpan={6}>

@@ -65,7 +65,7 @@ export default function DetailsRecipe() {
               fontWeight={300}
               fontSize={'2xl'}
             >
-              {recipe.cuisine_id}
+              {recipe.cuisine}
             </Text>
           </Box>
 
@@ -107,13 +107,13 @@ export default function DetailsRecipe() {
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                 <List spacing={2}>
                   <ListItem>{recipe.ingredients}</ListItem>
-                  <ListItem>Master Chronometer Certified</ListItem>{' '}
-                  <ListItem>Tachymeter</ListItem>
+                  <ListItem>Olive Oil</ListItem>{' '}
+                  <ListItem>Chicken Breasts</ListItem>
                 </List>
                 <List spacing={2}>
-                  <ListItem>Anti‑magnetic</ListItem>
-                  <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem>
+                  <ListItem>Pepper</ListItem>
+                  <ListItem>Brown Sugar</ListItem>
+                  <ListItem>Egg </ListItem>
                 </List>
               </SimpleGrid>
             </Box>
@@ -130,44 +130,58 @@ export default function DetailsRecipe() {
 
               <List spacing={2}>
                 <ListItem>
+                  <Text as={'span'} fontWeight={'bold'}>
+                    First:
+                  </Text>{' '}
                   {recipe.steps}
                 </ListItem>
                 <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
-                    Bracelet:
+                    Second:
                   </Text>{' '}
-                  leather strap
+                  Heat the oil in a saucepan over a high heat. Add the pancetta
+                  and cook, stirring, for about 2–3 minutes, or until the fat
+                  has rendered and the bacon is golden and crisp. Remove from
+                  the pan with a slotted spoon and drain on kitchen paper.
                 </ListItem>
                 <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
-                    Case:
+                    Third:
                   </Text>{' '}
-                  Steel
+                  Add the onion and carrots to the pancetta pan and cook for 5
+                  minutes until the onion is softened. Add the celery and garlic
+                  and cook for a further 3–4 minutes, stirring occasionally.
                 </ListItem>
                 <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
-                    Case diameter:
+                    After the Oven:
                   </Text>{' '}
-                  42 mm
+                  Add the thyme, bay leaf, stock and tomatoes, stir and bring to
+                  a gentle simmer. Add the lentils and cook for 20–25 minutes,
+                  or until they are softened. Remove the bay leaf and use a
+                  stick blender or food processor to partially blend the soup,
+                  keeping a fairly chunky texture.
                 </ListItem>
                 <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
-                    Dial color:
+                    Then:
                   </Text>{' '}
-                  Black
+                  Bring the soup back to a simmer, add the cabbage and cook for
+                  3–4 minutes until wilted. Reheat the pancetta in a small
+                  frying pan at the same time.
                 </ListItem>
                 <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
-                    Crystal:
+                    Fridge:
                   </Text>{' '}
                   Domed, scratch‑resistant sapphire crystal with anti‑reflective
                   treatment inside
                 </ListItem>
                 <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
-                    Water resistance:
+                    Finally:
                   </Text>{' '}
-                  5 bar (50 metres / 167 feet){' '}
+                  Enjoy !{' '}
                 </ListItem>
               </List>
             </Box>
