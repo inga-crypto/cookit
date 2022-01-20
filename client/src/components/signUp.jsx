@@ -16,9 +16,49 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import auth from '../utils/auth'
+import api from '../services/apiServices'
+import { useNavigate } from 'react-router-dom'
 
-export default function Signup() {
+const initialState = {
+  name: '',
+  username: '',
+  email: '',
+  password: '',
+}
+
+export default function Signup(props) {
   const [showPassword, setShowPassword] = useState(false)
+
+  let navigate = useNavigate()
+  const [state, setState] = useState(initialState)
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const { email, password, name, username } = state
+    const user = { email, password, name, username }
+    const res = await api.signUp(user)
+
+    if (res.error) {
+      alert(`${res.message}`)
+      setState(initialState)
+    } else {
+      const { accessToken, user } = res.data
+      localStorage.setItem('accessToken', accessToken)
+      localStorage.setItem('user', user)
+      props.setIsAuthenticated(true)
+      props.setAuthenticatedUser(user)
+      auth.login(() => navigate('/'))
+    }
+  }
 
   return (
     <Flex
@@ -45,26 +85,46 @@ export default function Signup() {
           <Stack spacing={4}>
             <HStack>
               <Box>
-                <FormControl id='firstName' isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input type='text' />
+                <FormControl id='name' isRequired>
+                  <FormLabel>Name</FormLabel>
+                  <Input
+                    type='text'
+                    value={state.name}
+                    name={'name'}
+                    onChange={handleChange}
+                  />
                 </FormControl>
               </Box>
               <Box>
-                <FormControl id='lastName'>
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type='text' />
+                <FormControl id='username'>
+                  <FormLabel>Username</FormLabel>
+                  <Input
+                    type='text'
+                    value={state.username}
+                    name={'username'}
+                    onChange={handleChange}
+                  />
                 </FormControl>
               </Box>
             </HStack>
             <FormControl id='email' isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type='email' />
+              <Input
+                type='email'
+                value={state.email}
+                name={'email'}
+                onChange={handleChange}
+              />
             </FormControl>
             <FormControl id='password' isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  value={state.password}
+                  name={'password'}
+                  onChange={handleChange}
+                />
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -86,13 +146,17 @@ export default function Signup() {
                 _hover={{
                   bg: 'blue.500',
                 }}
+                onClick={handleSubmit}
               >
                 Sign up
               </Button>
             </Stack>
             <Stack pt={6}>
               <Text align={'center'}>
-                Already a user? <Link color={'blue.400'}>Login</Link>
+                Already a user?{' '}
+                <Link color={'blue.400'} to={'/signIn'}>
+                  Login
+                </Link>
               </Text>
             </Stack>
           </Stack>

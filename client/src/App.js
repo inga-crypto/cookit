@@ -52,13 +52,23 @@ function App() {
           />
           <Route
             path='signin'
-            element={<SignIn setIsAuthenticated={setIsAuthenticated}   
-            user={user}
-            setAuthenticatedUser={setAuthenticatedUser} />}
+            element={
+              <SignIn
+                setIsAuthenticated={setIsAuthenticated}
+                user={user}
+                setAuthenticatedUser={setAuthenticatedUser}
+              />
+            }
           />
           <Route
             path='signup'
-            element={<Signup setIsAuthenticated={setIsAuthenticated} />}
+            element={
+              <Signup
+                setIsAuthenticated={setIsAuthenticated}
+                setAuthenticatedUser={setAuthenticatedUser}
+                user={user}
+              />
+            }
           />
         </Routes>
       </Router>
