@@ -52,7 +52,6 @@ export default function PostRecipe(props) {
   console.log(localStorage);
 
   const handleSubmit = async (e) => {
-    console.log('auth: ', localStorage.accessToken);
     e.preventDefault()
     const { title, description, ingredients, steps } = state;
     const recipe = { title, cuisine_id: 1, user_id: props.user.id, description, ingredients, steps };
