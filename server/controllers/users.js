@@ -6,6 +6,7 @@ const SECRET_KEY = process.env.SECRET_KEY || 'not secure'
 exports.create = async (req, res) => {
   const { name, username, email, password } = req.body
   const checkUser = await User.getByEmail({ email })
+  console.log(checkUser);
   if (checkUser.length)
     return res
       .status(409)
