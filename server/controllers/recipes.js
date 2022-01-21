@@ -8,12 +8,12 @@ exports.create = async (req, res) => {
   
   try {
     const result = await Recipe.add({
+      user_id,
+      cuisine_id,
       title,
       description,
       ingredients,
       steps,
-      user_id,
-      cuisine_id,
     })
     
     res.status(201);
