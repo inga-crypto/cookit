@@ -23,6 +23,14 @@ function App() {
     })
   }, [])
 
+  const postRecipe = async (recipe) => {
+    const response = await api.postRecipes(localStorage.accessToken, recipe)
+    const itemDets = response.data[0];
+    recipe.id = itemDets.id;
+    setRecipes([...recipes, recipe]);
+  };
+
+
   return (
     <div className='App'>
       <Router>
@@ -38,7 +46,7 @@ function App() {
             element={
               <ListRecipe
                 setIsAuthenticated={setIsAuthenticated}
-                recipes={recipes}
+                recipes={recipes} 
               />
             }
           />
@@ -49,9 +57,10 @@ function App() {
           <Route
             path='/recipe/post'
             element={<PostRecipe isAuthenticated={isAuthenticated}
-          setIsAuthenticated={setIsAuthenticated}
-          user={user}
-          setAuthenticatedUser={setAuthenticatedUser} />}
+            setIsAuthenticated={setIsAuthenticated}
+            user={user}
+            setAuthenticatedUser={setAuthenticatedUser} 
+            postRecipe={postRecipe} />}
           />
           <Route
             path='signin'
