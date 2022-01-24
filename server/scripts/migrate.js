@@ -1,4 +1,14 @@
+require("dotenv").config();
 const db = require("../models/db");
+const cuisines = [
+  "Mexican",
+  "Italian",
+  "Indian",
+  "French",
+  "Greek",
+  "American",
+  "Spanish",
+].sort();
 (async () => {
   try {
     await db.schema.dropTableIfExists("users");
@@ -18,6 +28,9 @@ const db = require("../models/db");
       table.timestamps(true, true);
       console.log("Created cuisines table!");
     });
+    for (let cuisine of cuisines) {
+      await db.insert({ cuisine }).into("cuisines");
+    }
     await db.schema.dropTableIfExists("recipes");
     await db.schema.withSchema("public").createTable("recipes", (table) => {
       table.increments("id").primary();
