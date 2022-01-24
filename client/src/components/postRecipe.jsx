@@ -19,8 +19,7 @@ import {
   Select,
   Image,
 } from '@chakra-ui/react'
-import api from '../services/apiServices'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   title: '',
@@ -42,24 +41,18 @@ export default function PostRecipe(props) {
       ...prevState,
       [name]: value,
     }))
-    console.log(state)
   }
   const _onChange = (event) => {
     setState({
       imgs: event.target.files,
     })
   }
-  console.log(localStorage);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const { title, description, ingredients, steps } = state;
     const recipe = { title, cuisine_id: 1, user_id: props.user.id, description, ingredients, steps };
-    
-    const res = await api.postRecipes(localStorage.accessToken, recipe);
-    
-    
-    
+    await props.postRecipe(recipe);
     navigate('/')
   
   }
