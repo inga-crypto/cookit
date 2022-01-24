@@ -1,16 +1,15 @@
 'use strict'
 
-const express = require('express')
-const morgan = require('morgan')
-const cors = require('cors')
-const corsConfig = {
+import express from 'express';
+import morgan from 'morgan';
+import router from './router';
+import cors from 'cors';
+const corsConfig: cors.CorsOptions  = {
   origin: 'http://localhost:3000',
   credentials: true,
 }
 
 const app = express()
-
-const router = require('./router.js')
 
 app.use(morgan('dev'))
 app.use(cors(corsConfig))
@@ -21,5 +20,4 @@ app.get('*', (req, res) => {
   res.status(404).send('404 Page Not Found')
 })
 
-module.exports = app;
-
+export default app;
