@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Recipe, User } from './types'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:5000',
@@ -9,55 +10,58 @@ const apiClient = axios.create({
   },
 })
 
-const api = {}
-
 //USER
 
-api.signUp = async (user) => {
+export interface AuthResponse {
+  accessToken: any;
+  user: User
+}
+
+export const signUp = async (user: User) => {
   try {
-    const response = await apiClient.post('/api/auth/signup', user)
+    const response = await apiClient.post<AuthResponse>('/api/auth/signup', user)
     return response
   } catch (error) {
     console.error(error)
   }
 }
 
-api.login = async (user) => {
+export const login = async (user: User) => {
   try {
-    const response = await apiClient.post('/api/auth/login', user)
+    const response = await apiClient.post<AuthResponse>('/api/auth/login', user)
     return response
   } catch (error) {
     console.error(error)
   }
 }
 
-api.logout = async (tokenName,user) => {
+export const logout = async (tokenName: string, user: string) => {
   localStorage.removeItem(tokenName)
   localStorage.removeItem(user)
 }
 
 //RECIPE
 
-api.getRecipes = async () => {
+export const getRecipes = async () => {
   try {
-    const response = await apiClient.get('/api/recipes')
+    const response = await apiClient.get<Recipe[]>('/api/recipes')
     return response
   } catch (error) {
     console.error(error)
   }
 }
-api.getRecipe = async (id) => {
+export const getRecipe = async (id: string) => {
   try {
-    const response = await apiClient.get('/api/recipes/' + id)
+    const response = await apiClient.get<Recipe>('/api/recipes/' + id)
     return response
   } catch (error) {
     console.error(error)
   }
 }
-api.postRecipes = async (tokenName, data) => {
+export const postRecipes = async (tokenName: string, data: Recipe) => {
   try {
-    const response = await apiClient.post('/api/recipes/create', data, { 
-      headers: { 'jwt': tokenName } 
+    const response = await apiClient.post('/api/recipes/create', data, {
+      headers: { 'jwt': tokenName }
     });
     return response
   } catch (error) {
@@ -65,7 +69,7 @@ api.postRecipes = async (tokenName, data) => {
   }
 }
 
-export default api
+//export default api
 
 // export default {
 //   getEvents() {

@@ -9,13 +9,14 @@ import Signup from './components/signUp'
 import DetailsRecipe from './components/detailsRecipe'
 import PostRecipe from './components/postRecipe'
 import ListRecipe from './components/listRecipe'
-import api from './services/apiServices'
+import * as api from './services/apiServices'
+import { Recipe } from './services/types'
 
 function App() {
   const initialState = auth.isAuthenticated()
   const [isAuthenticated, setIsAuthenticated] = useState(initialState)
-  const [user, setAuthenticatedUser] = useState([])
-  const [recipes, setRecipes] = useState([])
+  const [user, setAuthenticatedUser] = useState<User>()
+  const [recipes, setRecipes] = useState<Recipe[]>([])
 
   useEffect(() => {
     api.getRecipes().then((data) => {
@@ -45,21 +46,20 @@ function App() {
             path='/'
             element={
               <ListRecipe
-                setIsAuthenticated={setIsAuthenticated}
-                recipes={recipes} 
+                recipes={recipes}
               />
             }
           />
           <Route
             path='/recipe/:id'
-            element={<DetailsRecipe setIsAuthenticated={setIsAuthenticated} />}
+            element={<DetailsRecipe />}
           />
           <Route
             path='/recipe/post'
             element={<PostRecipe isAuthenticated={isAuthenticated}
             setIsAuthenticated={setIsAuthenticated}
             user={user}
-            setAuthenticatedUser={setAuthenticatedUser} 
+            setAuthenticatedUser={setAuthenticatedUser}
             postRecipe={postRecipe} />}
           />
           <Route
