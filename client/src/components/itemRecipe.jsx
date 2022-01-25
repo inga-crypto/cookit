@@ -58,7 +58,7 @@ export default function ItemRecipe({ recipe }) {
           >
             {recipe.cuisine}
           </Heading>
-          <Text color={'gray.500'}>{recipe.description}</Text>
+          <Text color={'gray.500'} role="definition">{recipe.description}</Text>
         </Stack>
         <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
           <Badge
