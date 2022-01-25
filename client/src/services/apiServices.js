@@ -55,8 +55,6 @@ api.getRecipe = async (id) => {
   }
 }
 api.postRecipes = async (tokenName, data) => {
-  console.log('api data: ', data);
-  console.log('api token: ', tokenName);
   try {
     const response = await apiClient.post('/api/recipes/create', data, { 
       headers: { 'jwt': tokenName } 
