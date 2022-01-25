@@ -6,6 +6,5 @@ export default function ListRecipe({ recipes }) {
        recipes.length && recipes.map((recipe) => (
           <ItemRecipe key={recipe.id} recipe={recipe} />
       ))
-    // <ItemRecipe />
   )
 }
