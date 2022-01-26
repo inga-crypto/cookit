@@ -31,6 +31,17 @@ const initialState = {
   imgs: [],
   file: [],
 }
+
+const cuisines = [
+  'American',
+  'French',
+  'Greek',
+  'Indian',
+  'Italian',
+  'Mexican',
+  'Spanish'
+]
+
 export default function PostRecipe(props) {
   let navigate = useNavigate()
   const [state, setState] = useState(initialState)
@@ -42,6 +53,7 @@ export default function PostRecipe(props) {
       [name]: value,
     }))
   }
+
   const _onChange = (event) => {
     setState({
       imgs: event.target.files,
@@ -50,12 +62,14 @@ export default function PostRecipe(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { title, description, ingredients, steps } = state;
-    const recipe = { title, cuisine_id: 1, user_id: props.user.id, description, ingredients, steps };
+    const { cuisine, title, description, ingredients, steps } = state;
+    const cuisine_id = cuisines.indexOf(cuisine) + 1;
+    const recipe = { title, cuisine_id, user_id: props.user.id, description, ingredients, steps };
     await props.postRecipe(recipe);
     navigate('/')
-  
   }
+
+  
 
   return (
     <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
@@ -132,11 +146,7 @@ export default function PostRecipe(props) {
                       w='full'
                       rounded='md'
                     >
-                      <option>Chinese</option>
-                      <option>Mexican</option>
-                      <option>Indian</option>
-                      <option>Turkish</option>
-                      <option>Middle Eastern</option>
+                      {cuisines.map(cuisine => <option>{cuisine}</option>)}
                     </Select>
                   </FormControl>
 
