@@ -11,6 +11,14 @@ const cuisines = [
 ].sort();
 (async () => {
   try {
+    await db.schema.dropTableIfExists("replys");
+    await db.schema.dropTableIfExists("comments");
+    await db.schema.dropTableIfExists("tag_recipes");
+    await db.schema.dropTableIfExists("tags");
+    await db.schema.dropTableIfExists("likes");
+    await db.schema.dropTableIfExists("photos");
+    await db.schema.dropTableIfExists("recipes");
+    await db.schema.dropTableIfExists("cuisines");
     await db.schema.dropTableIfExists("users");
     await db.schema.withSchema("public").createTable("users", (table) => {
       table.increments("id").primary();
@@ -21,7 +29,6 @@ const cuisines = [
       table.timestamps(true, true);
     });
     console.log("Created users table!");
-    await db.schema.dropTableIfExists("cuisines");
     await db.schema.withSchema("public").createTable("cuisines", (table) => {
       table.increments("id").primary();
       table.string("cuisine");
@@ -31,7 +38,6 @@ const cuisines = [
     for (let cuisine of cuisines) {
       await db.insert({ cuisine }).into("cuisines");
     }
-    await db.schema.dropTableIfExists("recipes");
     await db.schema.withSchema("public").createTable("recipes", (table) => {
       table.increments("id").primary();
       table
@@ -57,7 +63,6 @@ const cuisines = [
       table.index(["user_id"], "idx_recipe_user");
       console.log("Created recipes table!");
     });
-    await db.schema.dropTableIfExists("comments");
     await db.schema.withSchema("public").createTable("comments", (table) => {
       table.increments("id").primary();
       table
@@ -72,7 +77,6 @@ const cuisines = [
       table.index(["recipe_id"], "idx_comments_recipe");
       console.log("Created comments table!");
     });
-    await db.schema.dropTableIfExists("replys");
     await db.schema.withSchema("public").createTable("replys", (table) => {
       table.increments("id").primary();
       table
@@ -87,7 +91,6 @@ const cuisines = [
       table.index(["comment_id"], "idx_replys_comment");
       console.log("Created replys table!");
     });
-    await db.schema.dropTableIfExists("likes");
     await db.schema.withSchema("public").createTable("likes", (table) => {
       table.increments("id").primary();
       table
@@ -113,7 +116,6 @@ const cuisines = [
       table.index(["user_id"], "idx_likes_user");
       console.log("Created likes table!");
     });
-    await db.schema.dropTableIfExists("photos");
     await db.schema.withSchema("public").createTable("photos", (table) => {
       table.increments("id").primary();
       table
@@ -128,14 +130,12 @@ const cuisines = [
       table.index(["recipe_id"], "idx_photos_recipe");
       console.log("Created photos table!");
     });
-    await db.schema.dropTableIfExists("tags");
     await db.schema.withSchema("public").createTable("tags", (table) => {
       table.increments("id").primary();
       table.string("tag");
       table.timestamps(true, true);
       console.log("Created tags table!");
     });
-    await db.schema.dropTableIfExists("tag_recipes");
     await db.schema.withSchema("public").createTable("tag_recipes", (table) => {
       table.increments("id").primary();
       table
