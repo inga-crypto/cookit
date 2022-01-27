@@ -54,22 +54,31 @@ export default function PostRecipe(props) {
     }))
   }
 
-  const _onChange = (event) => {
+
+  const handleImageUpload = (event) => {
     setState({
       imgs: event.target.files,
     })
   }
 
+  function handleDragOver(ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "copy";
+   }
+   function handleDrop(ev) {
+    ev.preventDefault();
+    setState({imgs: ev.dataTransfer.files});
+   }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { cuisine, title, description, ingredients, steps } = state;
+    const { cuisine, title, description, ingredients, steps, imgs } = state;
     const cuisine_id = cuisines.indexOf(cuisine) + 1;
-    const recipe = { title, cuisine_id, user_id: props.user.id, description, ingredients, steps };
-    await props.postRecipe(recipe);
+    const recipe = { title, cuisine_id, user_id: props.user.id, description, ingredients, steps, imgs };
+    await props.postRecipe(recipe, state.imgs);
     navigate('/')
   }
 
-  
 
   return (
     <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
@@ -236,6 +245,8 @@ export default function PostRecipe(props) {
                       borderColor={useColorModeValue('gray.300', 'gray.500')}
                       borderStyle='dashed'
                       rounded='md'
+                      onDragOver={handleDragOver}
+                      onDrop={handleDrop}
                     >
                       <Stack spacing={1} textAlign='center'>
                         <Icon
@@ -276,7 +287,7 @@ export default function PostRecipe(props) {
                             <span>Upload a file</span>
                             <VisuallyHidden>
                               <input
-                                onChange={_onChange}
+                                onChange={handleImageUpload}
                                 id='file-upload'
                                 name='file-upload'
                                 type='file'
