@@ -17,4 +17,5 @@ router.get("/api/recipes", recipeController.list);
 router.get("/api/recipes/:id", recipeController.getById);
 router.post("/api/recipes/create", authMiddleware, recipeController.create);
 
+
 module.exports = router;

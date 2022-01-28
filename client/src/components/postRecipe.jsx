@@ -42,6 +42,7 @@ const cuisines = [
   'Spanish'
 ]
 
+
 export default function PostRecipe(props) {
   let navigate = useNavigate()
   const [state, setState] = useState(initialState)
@@ -78,6 +79,7 @@ export default function PostRecipe(props) {
     await props.postRecipe(recipe, state.imgs);
     navigate('/')
   }
+
 
 
   return (

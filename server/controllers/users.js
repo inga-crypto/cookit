@@ -12,6 +12,7 @@ exports.create = async (req, res) => {
   console.log(checkUser.severity);
   console.log(Object.keys(checkUser));
   if (typeof checkUser != "undefined" && checkUser[0]?.hasOwnProperty("id"))
+
     return res
       .status(409)
       .send({ error: "409", message: "User already exists" });
@@ -29,6 +30,7 @@ exports.create = async (req, res) => {
       SECRET_KEY
     ); /* , { expiresIn: '5h' } */
     res.status(201).send({ accessToken, user });
+
   } catch (error) {
     res.status(400).send({ error, message: "Could not create user" });
   }
@@ -42,6 +44,7 @@ exports.login = async (req, res) => {
     if (!validatedPass) throw new Error();
     const accessToken = jwt.sign({ id: user[0].id }, SECRET_KEY);
     res.status(200).send({ accessToken, user });
+
   } catch (error) {
     res
       .status(401)

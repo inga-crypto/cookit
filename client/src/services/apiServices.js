@@ -62,6 +62,7 @@ api.postRecipeImages = async (token, images) => {
     // TODO form post attachments
     const response = await apiClient.post('/api/uploadImages', images, {
       headers: { 'jwt': token }
+
     });
     return response
   } catch (error) {
