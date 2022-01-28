@@ -54,9 +54,26 @@ api.getRecipe = async (id) => {
     console.error(error)
   }
 }
-api.postRecipes = async (data) => {
+
+
+api.postRecipeImages = async (token, images) => {
   try {
-    const response = await apiClient.post('/api/recipes/create', data)
+    // make it so that /api/uploadImages accept files and returns urls
+    // TODO form post attachments
+    const response = await apiClient.post('/api/uploadImages', images, {
+      headers: { 'jwt': token }
+    });
+    return response
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+api.postRecipes = async (tokenName, data) => {
+  try {
+    const response = await apiClient.post('/api/recipes/create', data, {
+      headers: { 'jwt': tokenName }
+    });
     return response
   } catch (error) {
     console.error(error)
@@ -64,12 +81,3 @@ api.postRecipes = async (data) => {
 }
 
 export default api
-
-// export default {
-//   getEvents() {
-//     return apiClient.get('/events')
-//   },
-//   getEvent(id) {
-//     return apiClient.get('/events/' + id)
-//   },
-// }
